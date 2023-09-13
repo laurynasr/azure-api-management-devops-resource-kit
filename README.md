@@ -8,6 +8,14 @@ With the strategic value of APIs, a continuous integration (CI) and continuous d
 
 This repository provides [guidance](./README.md), [examples](./example/), and [tools](./src/README.md) to help you achieve API DevOps with Azure API Management.
 
+> **WARNING**
+> This project is now in "maintenance" mode.  This means that no new features will be accepted and fixes will be limited to security fixes.  We expect to retire the DevOps Resource Kit by the end of 2023.  At that time, the DevOps Resource Kit repository will be archived and there will be no further updates.
+>
+> While you are free to fork the DevOps Resource Kit yourself, we recommend that you migrate to the following products:
+>
+> * If you are using `creator`, switch over to using Bicep templates.  [Bicep](https://learn.microsoft.com/azure/azure-resource-manager/bicep/overview) is a descriptive language for describing infrastructure, fully supports all features of Azure API Management, and is covered in any support agreement that you have with Azure.  You can find bicep modules and examples for handling API Management APIs at [https://github.com/azure-samples/api-management-sample-apis](https://github.com/azure-samples/api-management-sample-apis).  
+> * If you are using `extractor`, switch your pipelines to use [APIOps](https://github.com/azure/apiops).  APIOps applies the concepts of GitOps to API deployments.  It is faster and more flexible than the DevOps Resource Kit.
+
 ## The Problem
 
 Organizations today normally have multiple deployment environments (e.g., Development, Testing, Production) and use separate API Management instances for each environment. Some of these instances are shared by multiple development teams, who are responsible for different APIs with different release cadence.
@@ -41,7 +49,7 @@ We realize there are two challenges for API developers when working with Resourc
 
 * First, API developers often work with [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification) and may not be familiar with Resource Manager schemas. Authoring templates manually might be an error-prone task. Therefore, we created a utility tool called [**Creator**](./src/README.md#Creator) to automate the creation of API templates based on an Open API Specification file. Optionally, developers can supply API Management policies for an API in XML format. Basically, the tool inserts the Open API specification and policies into a Resource Manager template in the proper format. With this tool, API developers can continue focusing on the formats and artifacts they are familiar with.
 
-* Second, for customers who have already been using API Management, another challenge is how to extract existing configurations into Resource Manager templates. For those customers, We have created another tool called [**Extractor**](./src/README.md#extractor) to help them generate templates by extracting configurations from their exisitng API Management instances. You can view [Supported Resources](./docs/SupportedResources/README.md) to view the supported functionality for each public APIM API version.
+* Second, for customers who have already been using API Management, another challenge is how to extract existing configurations into Resource Manager templates. For those customers, We have created another tool called [**Extractor**](./src/README.md#extractor) to help them generate templates by extracting configurations from their existing API Management instances. You can view [Supported Resources](./docs/SupportedResources/README.md) to view the supported functionality for each public APIM API version.
 
 Once API developers have finished developing and testing an API, and have generated the API template, they can submit a pull request to merge the changes to the publisher repository. API publishers can validate the pull request and make sure the changes are safe and compliant. For example, they can check if only HTTPS is allowed to communicate with the API. Most of these validations can be automated as a step in the CI/CD pipeline. Once the changes are approved and merged successfully, API publishers can choose to deploy them to the Production instance either on schedule or on demand. The deployment of the templates can be automated using [Github Actions](https://github.com/Azure/apimanagement-devops-samples), [Azure Pipeline](https://docs.microsoft.com/en-us/azure/devops/pipelines/?view=azure-devops), [PowerShell](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-deploy), [Azure CLI](Azure-cli-example.md) or other tools. An example using Azure DevOps can be find [here](docs/AzDO-Example.md)
 
